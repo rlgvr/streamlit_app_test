@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import time
+from st_aggrid import AgGrid, GridOptionsBuilder, DataReturnMode, JsCode
 
 # Function to perform some action based on the selected values
 def perform_action(selected_values):
@@ -28,18 +29,18 @@ if uploaded_file is not None:
     if column_selector in data.columns:  # Check if the selected column exists
         # Display the selected column
         selected_column = data[column_selector]
-        st.write("Selected Column:")
-        st.write(selected_column)
 
-        st.subheader("View Rows")
+        grid = AgGrid(
+            selected_column,
+            gridOptions=GridOptionsBuilder.from_dataframe(selected_column).build(),
+            update_mode=DataReturnMode.NO_UPDATE,
+            theme='streamlit'
+        )
 
         if st.button("Start Viewing Rows"):
-            for row in data.iterrows():
-                selected_row = row[1]
-                st.write("Selected Row:")
-                st.write(selected_row)
+            for i in range(len(selected_column)):
+                grid.update_table(selected_column.iloc[i:i+1])
                 time.sleep(2)  # Sleep for 2 seconds between rows
-                st.empty()  # Clear the content
 
             st.write("Viewing completed.")
     else:
