@@ -2,6 +2,16 @@ import streamlit as st
 import pandas as pd
 import time
 
+def oxygen_level_message(oxygen_level):
+    if oxygen_level >= 95:
+        return "Your oxygen level is within the normal range."
+    elif 90 <= oxygen_level < 95:
+        return "Your oxygen level is slightly below the normal range. It is advisable to consult a healthcare professional for evaluation."
+    elif 85 <= oxygen_level < 90:
+        return "Your oxygen level is below the normal range (Hypoxemia). Please seek immediate medical attention."
+    else:
+        return "Your oxygen level is critically low. Urgent medical attention is required."
+
 st.title("CSV Data Analyzer")
 
 # Upload a CSV file
@@ -26,6 +36,7 @@ if uploaded_file is not None:
         max_min_table = st.empty()
         table_component = st.empty()
         output_table = st.empty()  # New table for additional information
+        oxygen_message = st.empty()  # Textbox for oxygen level message
 
         if st.button("Start Viewing Rows"):
             for i in range(len(selected_column)):
@@ -41,6 +52,9 @@ if uploaded_file is not None:
 
                 # Display the max and min values in a separate table
                 max_min_table.table(pd.DataFrame({'Max Value': [max_value], 'Min Value': [min_value]}))
+
+                # Display oxygen level message
+                oxygen_message.text(oxygen_level_message(current_value))
 
             st.write("Viewing completed.")
 
