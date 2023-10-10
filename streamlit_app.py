@@ -15,8 +15,7 @@ st.title("CSV Data Analyzer")
 # Upload a CSV file
 uploaded_file = st.file_uploader("Upload a CSV file", type=["csv"])
 if uploaded_file is not None:
-    data = pd.read_csv(uploaded_file, index_col=1)
-    #data = data.drop(columns='Unknown:0')
+    data = pd.read_csv(uploaded_file)
 
     st.subheader("Data Preview")
     st.write(data)
