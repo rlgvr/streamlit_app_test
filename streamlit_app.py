@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import time
 
 # Function to perform some action based on the selected values
 def perform_action(selected_values):
@@ -30,10 +31,17 @@ if uploaded_file is not None:
         st.write("Selected Column:")
         st.write(selected_column)
 
-        # Perform an action based on the selected values
-        output = perform_action(selected_column)
-        st.write("Output based on the selected values:")
-        st.write(output)
+        st.subheader("View Rows")
+
+        if st.button("Start Viewing Rows"):
+            for row in data.iterrows():
+                selected_row = row[1]
+                st.write("Selected Row:")
+                st.write(selected_row)
+                time.sleep(2)  # Sleep for 2 seconds between rows
+                st.empty()  # Clear the content
+
+            st.write("Viewing completed.")
     else:
         st.warning("Selected column does not exist in the DataFrame.")
 
