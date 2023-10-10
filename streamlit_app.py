@@ -14,7 +14,7 @@ st.title("CSV Data Analyzer")
 # Upload a CSV file
 uploaded_file = st.file_uploader("Upload a CSV file", type=["csv"])
 if uploaded_file is not None:
-    data = pd.read_csv(uploaded_file)
+    data = pd.read_csv(uploaded_file, index_col=0)
 
     st.subheader("Data Preview")
     st.write(data)
@@ -22,10 +22,10 @@ if uploaded_file is not None:
     st.subheader("Select a Row to Analyze")
 
     # Create a slider to select a row to display
-    row_selector = st.slider("Row", 0, len(data) - 1, 0)
+    #row_selector = st.slider("Row", 0, len(data) - 1, 0)
 
     # Display the selected row
-    selected_row = data.iloc[row_selector]
+    selected_row = data['Oxygen Level']
     st.write("Selected Row:")
     st.write(selected_row)
 
