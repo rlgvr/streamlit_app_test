@@ -2,14 +2,6 @@ import streamlit as st
 import pandas as pd
 import time
 
-# Function to perform some action based on the selected values
-def perform_action(selected_values):
-    # Replace this with your custom logic
-    if selected_values.mean() < 50:
-        return "Low Values"
-    else:
-        return "High Values"
-
 st.title("CSV Data Analyzer")
 
 # Upload a CSV file
@@ -29,14 +21,31 @@ if uploaded_file is not None:
         # Display the selected column
         selected_column = data[column_selector]
 
+        max_value = None
+        min_value = None
+        max_min_table = st.empty()
         table_component = st.empty()
+        output_table = st.empty()  # New table for additional information
 
         if st.button("Start Viewing Rows"):
             for i in range(len(selected_column)):
                 table_component.table(selected_column.iloc[i:i+1])
                 time.sleep(2)  # Sleep for 2 seconds between rows
 
+                # Update max and min values
+                current_value = selected_column.iloc[i]
+                if max_value is None or current_value > max_value:
+                    max_value = current_value
+                if min_value is None or current_value < min_value:
+                    min_value = current_value
+
+                # Display the max and min values in a separate table
+                max_min_table.table(pd.DataFrame({'Max Value': [max_value], 'Min Value': [min_value]}))
+
             st.write("Viewing completed.")
+
+            # Additional information after viewing
+            output_table.table(pd.DataFrame({'Max Value': [max_value], 'Min Value': [min_value]}))
     else:
         st.warning("Selected column does not exist in the DataFrame.")
 
