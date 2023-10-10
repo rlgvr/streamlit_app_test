@@ -53,8 +53,8 @@ if uploaded_file is not None:
                 # Display the max and min values in a separate table
                 max_min_table.table(pd.DataFrame({'Max Value': [max_value], 'Min Value': [min_value]}))
 
-                # Display oxygen level message
-                oxygen_message.text_area("Oxygen Level Message", oxygen_level_message(current_value), height=100)
+                # Display oxygen level message with a unique key
+                oxygen_message.text_area(f"Oxygen Level Message {i}", oxygen_level_message(current_value), height=100)
 
             st.write("Viewing completed.")
 
