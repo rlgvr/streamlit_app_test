@@ -1,13 +1,13 @@
 import streamlit as st
 import pandas as pd
 
-# Function to perform some action based on the selected value
-def perform_action(selected_value):
+# Function to perform some action based on the selected values
+def perform_action(selected_values):
     # Replace this with your custom logic
-    if selected_value < 50:
-        return "Low Value"
+    if selected_values.mean() < 50:
+        return "Low Values"
     else:
-        return "High Value"
+        return "High Values"
 
 st.title("CSV Data Analyzer")
 
@@ -19,21 +19,23 @@ if uploaded_file is not None:
     st.subheader("Data Preview")
     st.write(data)
 
-    st.subheader("Select a Row to Analyze")
+    st.subheader("Select a Column to Analyze")
 
     # Create a selectbox to choose a column name
     column_selector = st.selectbox("Select Column", data.columns)
 
-    # Display the selected column
-    selected_column = data[column_selector]
-    st.write("Selected Column:")
-    st.write(selected_column)
+    if column_selector in data.columns:  # Check if the selected column exists
+        # Display the selected column
+        selected_column = data[column_selector]
+        st.write("Selected Column:")
+        st.write(selected_column)
 
-    # Perform an action based on the selected values
-    selected_values = data[column_selector]  # Use the selected column
-    output = perform_action(selected_values)
-    st.write("Output based on the selected values:")
-    st.write(output)
+        # Perform an action based on the selected values
+        output = perform_action(selected_column)
+        st.write("Output based on the selected values:")
+        st.write(output)
+    else:
+        st.warning("Selected column does not exist in the DataFrame.")
 
 else:
     st.warning("Please upload a CSV file.")
