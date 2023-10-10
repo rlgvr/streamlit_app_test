@@ -21,8 +21,8 @@ if uploaded_file is not None:
 
     st.subheader("Select a Column to Analyze")
 
-    # Create a selectbox to choose a column name
-    column_selector = st.selectbox("Select Column", data.columns)
+    # Create radio buttons to choose a column name
+    column_selector = st.radio("Select Column", data.columns)
 
     if column_selector in data.columns:  # Check if the selected column exists
         # Display the selected column
