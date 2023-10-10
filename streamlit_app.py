@@ -14,25 +14,25 @@ st.title("CSV Data Analyzer")
 # Upload a CSV file
 uploaded_file = st.file_uploader("Upload a CSV file", type=["csv"])
 if uploaded_file is not None:
-    data = pd.read_csv(uploaded_file, index_col=0)
+    data = pd.read_csv(uploaded_file)
 
     st.subheader("Data Preview")
     st.write(data)
 
     st.subheader("Select a Row to Analyze")
 
-    # Create a slider to select a row to display
-    #row_selector = st.slider("Row", 0, len(data) - 1, 0)
+    # Create a selectbox to choose a column name
+    column_selector = st.selectbox("Select Column", data.columns)
 
-    # Display the selected row
-    selected_row = data['Oxygen Level']
-    st.write("Selected Row:")
-    st.write(selected_row)
+    # Display the selected column
+    selected_column = data[column_selector]
+    st.write("Selected Column:")
+    st.write(selected_column)
 
-    # Perform an action based on the selected value
-    selected_value = selected_row['Value']  # Change 'Value' to the actual column name
-    output = perform_action(selected_value)
-    st.write("Output based on the selected value:")
+    # Perform an action based on the selected values
+    selected_values = data[column_selector]  # Use the selected column
+    output = perform_action(selected_values)
+    st.write("Output based on the selected values:")
     st.write(output)
 
 else:
