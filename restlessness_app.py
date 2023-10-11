@@ -17,6 +17,9 @@ def convert_timestamp_to_datetime(timestamp):
 st.title("Restlessness Data Visualization")
 st.write("Click the 'Start' button to visualize data row by row.")
 
+# Create a table to show the x, y, z values (initially empty)
+values_table = st.empty()
+
 # Create a button to start processing
 if st.button("Start"):
     while data_index < len(data):
@@ -30,20 +33,12 @@ if st.button("Start"):
         # Update time to human-readable format
         current_time = convert_timestamp_to_datetime(current_row["epoch (ms)"])
         
-        # Create a table to show the x, y, z values
-        st.subheader("Current Values")
-        values_table = st.table(pd.DataFrame({
+        # Update the table to show the x, y, z values
+        values_table.table(pd.DataFrame({
             "X-axis (g)": [x_value],
             "Y-axis (g)": [y_value],
             "Z-axis (g)": [z_value]
         }))
-        
-        # Update a Pandas DataFrame column with the next row's data
-        data.at[data_index, "Next Row Values"] = f"X: {x_value}, Y: {y_value}, Z: {z_value}"
-        
-        # Show the updated DataFrame
-        st.subheader("Updated DataFrame")
-        st.write(data)
         
         # Show description
         st.subheader("Restlessness Description")
