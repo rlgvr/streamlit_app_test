@@ -14,8 +14,8 @@ def convert_timestamp_to_datetime(timestamp):
     return datetime.utcfromtimestamp(timestamp / 1000.0).strftime('%Y-%m-%d %H:%M:%S')
 
 # Create a Streamlit app
-st.title("Restlessness Data Visualization")
-st.write("Click the 'Start' button to visualize data row by row.")
+st.title("Restlessness Evaluation")
+st.write("Start Live Evaluation")
 
 # Create a table to show the x, y, z values (initially empty)
 values_table = st.empty()
