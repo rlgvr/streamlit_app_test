@@ -12,7 +12,7 @@ def oxygen_level_message(oxygen_level):
     else:
         return "Your oxygen level is critically low. Urgent medical attention is required."
 
-st.title("CSV Data Analyzer")
+st.title("Oxygen Level Analyzer")
 
 # Upload a CSV file
 uploaded_file = st.file_uploader("Upload a CSV file", type=["csv"])
