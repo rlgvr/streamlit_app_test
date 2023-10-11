@@ -1,58 +1,64 @@
 import streamlit as st
 import pandas as pd
 import time
+from datetime import datetime
+import matplotlib.pyplot as plt
+import numpy as np
 
-# Sample DataFrame (replace with your data)
-data = {
-    'epoch (ms)': [1696967617982, 1696967618062, 1696967618142, 1696967618222, 1696967618302],
-    'time (-00:00)': ['2023-10-10T20:53:37.982', '2023-10-10T20:53:38.062', '2023-10-10T20:53:38.142', '2023-10-10T20:53:38.222', '2023-10-10T20:53:38.302'],
-    'x-axis (g)': [-0.959, -1.003, -0.971, -0.993, -0.987],
-    'y-axis (g)': [-0.252, -0.247, -0.267, -0.264, -0.257],
-    'z-axis (g)': [0.134, 0.150, 0.160, 0.165, 0.170],
-    'score': [5, 6, 5, 6, 5],
-    'Restlessness_Score': [5, 6, 5, 6, 5],
-    'Restlessness_Description': [
-        'Moderate to High Restlessness',
-        'High Restlessness',
-        'Moderate to High Restlessness',
-        'High Restlessness',
-        'Moderate to High Restlessness'
-    ]
-}
+# Load your dataframe
+data = pd.read_csv("restlessness_description.csv")
 
-# Convert the 'time (-00:00)' column to timestamp
-data['time (-00:00)'] = pd.to_datetime(data['time (-00:00)'])
+# Initialize index to track the current row
+data_index = 0
+
+# Function to convert timestamp to a human-readable format
+def convert_timestamp_to_datetime(timestamp):
+    return datetime.utcfromtimestamp(timestamp / 1000.0).strftime('%Y-%m-%d %H:%M:%S')
 
 # Create a Streamlit app
-st.title("Streamlit Data Reader")
+st.title("Restlessness Data Visualization")
+st.write("Click the 'Start' button to visualize data row by row.")
 
-# Create a button to start reading the data
+# Create a button to start processing
 if st.button("Start"):
-    data_index = 0
+    while data_index < len(data):
+        # Clear previous content
+        st.clear()
+        
+        # Get current row data
+        current_row = data.iloc[data_index]
+        x_value = current_row["x-axis (g)"]
+        y_value = current_row["y-axis (g)"]
+        z_value = current_row["z-axis (g)"]
+        description = current_row["Restlessness_Description"]
+        
+        # Update time to human-readable format
+        current_time = convert_timestamp_to_datetime(current_row["epoch (ms)"])
+        
+        # Create a table to show the x, y, z values
+        st.subheader("Current Values")
+        values_table = st.table(pd.DataFrame({
+            "X-axis (g)": [x_value],
+            "Y-axis (g)": [y_value],
+            "Z-axis (g)": [z_value]
+        }))
 
-    # Create a table to show 'x', 'y', and 'z' values
-    st.subheader("Current Values")
-    values_table = st.table(data[["x-axis (g)", "y-axis (g)", "z-axis (g)"]].iloc[data_index])
-
-    # Create a graph to visualize 'x', 'y', and 'z' values
-    st.subheader("Visualization")
-    chart = st.line_chart(data[["x-axis (g)", "y-axis (g)", "z-axis (g)"]].iloc[:data_index + 1])
-
-    # Create a text box to show 'Restlessness_Description'
-    st.subheader("Restlessness Description")
-    description_text = st.text_area("", data["Restlessness_Description"].iloc[data_index])
-
-    while data_index < len(data) - 1:
+        # Create a line chart to visualize the data
+        st.subheader("Data Visualization")
+        fig, ax = plt.subplots()
+        ax.plot(range(data_index, data_index + 1), [x_value], label='X-axis (g)')
+        ax.plot(range(data_index, data_index + 1), [y_value], label='Y-axis (g)')
+        ax.plot(range(data_index, data_index + 1), [z_value], label='Z-axis (g)')
+        ax.set_xlabel("Row")
+        ax.set_ylabel("Acceleration (g)")
+        ax.set_title(f"Data Visualization at Time: {current_time}")
+        ax.legend()
+        st.pyplot(fig)
+        
+        # Show description
+        st.subheader("Restlessness Description")
+        st.write(description)
+        
+        # Update index and wait for 1 second before the next row
         data_index += 1
-
-        # Update the table with the next row of data
-        values_table.table(data[["x-axis (g)", "y-axis (g)", "z-axis (g)"]].iloc[data_index])
-
-        # Update the visualization with the new row of values
-        chart.line_chart(data[["x-axis (g)", "y-axis (g)", "z-axis (g)"]].iloc[:data_index + 1])
-
-        # Update the text box with 'Restlessness_Description' for the current row
-        description_text.text(data["Restlessness_Description"].iloc[data_index])
-
-        # Sleep for 1 second before showing the next row
         time.sleep(1)
