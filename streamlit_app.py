@@ -1,8 +1,6 @@
 import streamlit as st
 import pandas as pd
 import time
-import requests
-import io  # Import the io module
 
 def oxygen_level_message(oxygen_level):
     if oxygen_level >= 95:
@@ -16,15 +14,10 @@ def oxygen_level_message(oxygen_level):
 
 st.title("CSV Data Analyzer")
 
-# Use the raw URL of the CSV file in the Git repository
-csv_url = "https://raw.githubusercontent.com/your_username/your_repository/main/your_file.csv"
-
-# Download the CSV file
-response = requests.get(csv_url)
-
-if response.status_code == 200:
-    # Use io.StringIO instead of pd.compat.StringIO
-    data = pd.read_csv(io.StringIO(response.text), index_col=0)
+# Upload a CSV file
+uploaded_file = st.file_uploader("Upload a CSV file", type=["csv"])
+if uploaded_file is not None:
+    data = pd.read_csv(uploaded_file, index_col=0)
 
     st.subheader("Data Preview")
     st.write(data, index=False)
@@ -71,4 +64,4 @@ if response.status_code == 200:
         st.warning("Selected column does not exist in the DataFrame.")
 
 else:
-    st.warning("Failed to retrieve the CSV file from the Git repository. Please check the URL.")
+    st.warning("Please upload a CSV file.")
