@@ -1,10 +1,7 @@
-
 import streamlit as st
 import pandas as pd
 import time
 from datetime import datetime
-import matplotlib.pyplot as plt
-import numpy as np
 
 # Load your dataframe
 data = pd.read_csv("restlessness_description.csv")
@@ -44,18 +41,13 @@ if st.button("Start"):
             "Z-axis (g)": [z_value]
         }))
 
-        # Create a line chart to visualize the data
-        st.subheader("Data Visualization")
-        fig, ax = plt.subplots()
-        ax.plot(range(data_index, data_index + 1), [x_value], label='X-axis (g)')
-        ax.plot(range(data_index, data_index + 1), [y_value], label='Y-axis (g)')
-        ax.plot(range(data_index, data_index + 1), [z_value], label='Z-axis (g)')
-        ax.set_xlabel("Row")
-        ax.set_ylabel("Acceleration (g)")
-        ax.set_title(f"Data Visualization at Time: {current_time}")
-        ax.legend()
-        st.pyplot(fig)
+        # Update a Pandas DataFrame column with the next row's data
+        data["Next Row Values"] = data.apply(lambda row: f"X: {x_value}, Y: {y_value}, Z: {z_value}", axis=1)
         
+        # Show the updated DataFrame
+        st.subheader("Updated DataFrame")
+        st.write(data)
+
         # Show description
         st.subheader("Restlessness Description")
         st.write(description)
