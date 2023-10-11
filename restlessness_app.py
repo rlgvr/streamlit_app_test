@@ -20,9 +20,6 @@ st.write("Click the 'Start' button to visualize data row by row.")
 # Create a button to start processing
 if st.button("Start"):
     while data_index < len(data):
-        # Clear previous content
-        st.clear()
-        
         # Get current row data
         current_row = data.iloc[data_index]
         x_value = current_row["x-axis (g)"]
@@ -40,14 +37,14 @@ if st.button("Start"):
             "Y-axis (g)": [y_value],
             "Z-axis (g)": [z_value]
         }))
-
+        
         # Update a Pandas DataFrame column with the next row's data
-        data["Next Row Values"] = data.apply(lambda row: f"X: {x_value}, Y: {y_value}, Z: {z_value}", axis=1)
+        data.at[data_index, "Next Row Values"] = f"X: {x_value}, Y: {y_value}, Z: {z_value}"
         
         # Show the updated DataFrame
         st.subheader("Updated DataFrame")
         st.write(data)
-
+        
         # Show description
         st.subheader("Restlessness Description")
         st.write(description)
