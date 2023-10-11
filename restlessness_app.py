@@ -20,6 +20,9 @@ st.write("Click the 'Start' button to visualize data row by row.")
 # Create a table to show the x, y, z values (initially empty)
 values_table = st.empty()
 
+# Create a text element for the description and score (initially empty)
+description_and_score = st.empty()
+
 # Create a button to start processing
 if st.button("Start"):
     while data_index < len(data):
@@ -29,6 +32,7 @@ if st.button("Start"):
         y_value = current_row["y-axis (g)"]
         z_value = current_row["z-axis (g)"]
         description = current_row["Restlessness_Description"]
+        score = current_row["score"]
         
         # Update time to human-readable format
         current_time = convert_timestamp_to_datetime(current_row["epoch (ms)"])
@@ -40,9 +44,11 @@ if st.button("Start"):
             "Z-axis (g)": [z_value]
         }))
         
-        # Show description
-        st.subheader("Restlessness Description")
-        st.write(description)
+        # Create a description and score text
+        description_text = f"Description: {description}\nScore: {score}"
+        
+        # Update description and score text
+        description_and_score.text(description_text)
         
         # Update index and wait for 1 second before the next row
         data_index += 1
