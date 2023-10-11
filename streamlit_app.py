@@ -17,7 +17,7 @@ def oxygen_level_message(oxygen_level):
 st.title("CSV Data Analyzer")
 
 # Use the raw URL of the CSV data in the Git repository
-csv_url = "https://raw.githubusercontent.com/your_username/your_repository/main/your_data.csv"
+csv_url = "https://github.com/rlgvr/streamlit_app_test/blob/main/simulated_oxygen_level.csv"
 
 # Download the CSV data
 response = requests.get(csv_url)
