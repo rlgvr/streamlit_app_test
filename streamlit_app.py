@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import time
 import requests
+import io  # Import the io module
 
 def oxygen_level_message(oxygen_level):
     if oxygen_level >= 95:
@@ -22,7 +23,8 @@ csv_url = "https://github.com/rlgvr/streamlit_app_test/blob/main/simulated_oxyge
 response = requests.get(csv_url)
 
 if response.status_code == 200:
-    data = pd.read_csv(pd.compat.StringIO(response.text), index_col=0)
+    # Use io.StringIO instead of pd.compat.StringIO
+    data = pd.read_csv(io.StringIO(response.text), index_col=0)
 
     st.subheader("Data Preview")
     st.write(data, index=False)
