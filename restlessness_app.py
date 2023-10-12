@@ -52,7 +52,7 @@ if st.button("Start"):
         description_and_score.text(description_text)
         
         # Append data to the line chart
-        chart.line_chart(pd.DataFrame({
+        chart.line_chart(data=pd.DataFrame({
             "Timestamp_Accel": [timestamp],
             "X-axis (g)": [x_value],
             "Y-axis (g)": [y_value],
@@ -62,3 +62,4 @@ if st.button("Start"):
         # Update index and wait for 1 second before the next row
         data_index += 1
         time.sleep(1)
+
