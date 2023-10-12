@@ -35,7 +35,7 @@ if st.button("Start"):
         score = current_row["score_accelerometer"]
         
         # Update time to human-readable format
-        current_time = convert_timestamp_to_datetime(current_row["Timestamp_Accel"])
+        current_time = current_row["Timestamp_Accel"]
         
         # Update the table to show the x, y, z values
         values_table.table(pd.DataFrame({
