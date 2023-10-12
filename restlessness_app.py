@@ -15,10 +15,28 @@ def convert_timestamp_to_datetime(timestamp):
 
 # Create a Streamlit app
 st.title("Restlessness Evaluation")
-start_button = st.button("Start")
+st.write("Click the 'Start' button to visualize data row by row.")
 
-if start_button:
-    # While the button is not clicked, the code within this block won't execute
+# Create a table to show the x, y, z values
+values_table = st.table(pd.DataFrame({
+    "X-axis (g)": [0.0],
+    "Y-axis (g)": [0.0],
+    "Z-axis (g)": [0.0]
+}))
+
+# Create a text element for the description and score
+description_and_score = st.empty()
+
+# Create a line chart for visualization
+chart = st.line_chart(pd.DataFrame({
+    "Timestamp_Accel": [],
+    "X-axis (g)": [],
+    "Y-axis (g)": [],
+    "Z-axis (g)": []
+}))
+
+# Create a button to start processing
+if st.button("Start"):
     while data_index < len(data):
         # Get current row data
         current_row = data.iloc[data_index]
@@ -27,35 +45,29 @@ if start_button:
         z_value = current_row["z-axis (g)"]
         description = current_row["Restlessness_Description"]
         score = current_row["score_accelerometer"]
-        
-        # Update time to human-readable format
-        current_time = current_row["Timestamp_Accel"]
-        
-        # Display the x, y, z values
-        st.subheader("Current Values")
-        st.table(pd.DataFrame({
+        timestamp = current_row["Timestamp_Accel"]
+
+        # Update the table to show the x, y, z values
+        values_table.table(pd.DataFrame({
             "X-axis (g)": [x_value],
             "Y-axis (g)": [y_value],
             "Z-axis (g)": [z_value]
         }))
-        
+
         # Create a description and score text
         description_text = f"Description: {description}\nScore: {score}"
-        
-        # Display the description and score text
-        st.subheader("Restlessness Description")
-        st.text(description_text)
-        
-        # Display the line chart
-        st.subheader("Data Visualization")
-        chart_data = pd.DataFrame({
-            "Timestamp_Accel": [current_time],
+
+        # Update description and score text
+        description_and_score.text(description_text)
+
+        # Append data to the line chart
+        chart.line_chart(pd.DataFrame({
+            "Timestamp_Accel": [timestamp],
             "X-axis (g)": [x_value],
             "Y-axis (g)": [y_value],
             "Z-axis (g)": [z_value]
-        })
-        st.line_chart(chart_data)
-        
+        }))
+
         # Update index and wait for 1 second before the next row
         data_index += 1
         time.sleep(1)
