@@ -60,7 +60,7 @@ if st.button("Start"):
             "X-axis (g)": [x_value],
             "Y-axis (g)": [y_value],
             "Z-axis (g)": [z_value]
-        })
+        }))
 
         # Update index and wait for 1 second before the next row
         data_index += 1
