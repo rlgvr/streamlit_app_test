@@ -26,7 +26,7 @@ description_and_score = st.empty()
 # Create a button to start processing
 if st.button("Start"):
     # Create an empty line chart for visualization
-    chart = st.line_chart(data=pd.DataFrame(columns=["Timestamp_Accel", "X-axis (g)", "Y-axis (g)", "Z-axis (g)"]))
+    chart = st.line_chart(data=None, use_container_width=True)
 
     data_to_plot = pd.DataFrame(columns=["Timestamp_Accel", "X-axis (g)", "Y-axis (g)", "Z-axis (g)"])
     while data_index < len(data):
@@ -55,16 +55,16 @@ if st.button("Start"):
         # Update description and score text
         description_and_score.text(description_text)
 
-        # Add data to the DataFrame to plot
-        data_to_plot = data_to_plot.append({
-            "Timestamp_Accel": timestamp,
-            "X-axis (g)": x_value,
-            "Y-axis (g)": y_value,
-            "Z-axis (g)": z_value
-        }, ignore_index=True)
+        # Append data to the DataFrame to plot
+        data_to_plot = pd.concat([data_to_plot, pd.DataFrame({
+            "Timestamp_Accel": [timestamp],
+            "X-axis (g)": [x_value],
+            "Y-axis (g)": [y_value],
+            "Z-axis (g)": [z_value]
+        })], ignore_index=True)
 
         if data_index >= 5:
-            chart.line_chart(data=data_to_plot, use_container_width=True, x="Timestamp_Accel")
+            chart.line_chart(data_to_plot, use_container_width=True, x="Timestamp_Accel")
 
         # Update index and wait for 1 second before the next row
         data_index += 1
