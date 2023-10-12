@@ -15,19 +15,10 @@ def convert_timestamp_to_datetime(timestamp):
 
 # Create a Streamlit app
 st.title("Restlessness Evaluation")
-st.write("Start Live Evaluation")
+start_button = st.button("Start")
 
-# Create a table to show the x, y, z values (initially empty)
-values_table = st.empty()
-
-# Create a text element for the description and score (initially empty)
-description_and_score = st.empty()
-
-# Create an empty line chart for visualization
-chart = st.line_chart(data=None)
-
-# Create a button to start processing
-if st.button("Start"):
+if start_button:
+    # While the button is not clicked, the code within this block won't execute
     while data_index < len(data):
         # Get current row data
         current_row = data.iloc[data_index]
@@ -40,8 +31,9 @@ if st.button("Start"):
         # Update time to human-readable format
         current_time = current_row["Timestamp_Accel"]
         
-        # Update the table to show the x, y, z values
-        values_table.table(pd.DataFrame({
+        # Display the x, y, z values
+        st.subheader("Current Values")
+        st.table(pd.DataFrame({
             "X-axis (g)": [x_value],
             "Y-axis (g)": [y_value],
             "Z-axis (g)": [z_value]
@@ -50,16 +42,19 @@ if st.button("Start"):
         # Create a description and score text
         description_text = f"Description: {description}\nScore: {score}"
         
-        # Update description and score text
-        description_and_score.text(description_text)
+        # Display the description and score text
+        st.subheader("Restlessness Description")
+        st.text(description_text)
         
-        # Append data to the line chart
-        chart.line_chart(data=pd.DataFrame({
+        # Display the line chart
+        st.subheader("Data Visualization")
+        chart_data = pd.DataFrame({
             "Timestamp_Accel": [current_time],
             "X-axis (g)": [x_value],
             "Y-axis (g)": [y_value],
             "Z-axis (g)": [z_value]
-        }))
+        })
+        st.line_chart(chart_data)
         
         # Update index and wait for 1 second before the next row
         data_index += 1
