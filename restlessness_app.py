@@ -24,7 +24,7 @@ values_table = st.empty()
 description_and_score = st.empty()
 
 # Create an empty line chart for visualization
-chart = st.line_chart(data=None, use_container_width=True)
+chart = st.line_chart(data=None)
 
 # Create a button to start processing
 if st.button("Start"):
@@ -36,7 +36,9 @@ if st.button("Start"):
         z_value = current_row["z-axis (g)"]
         description = current_row["Restlessness_Description"]
         score = current_row["score_accelerometer"]
-        timestamp = current_row["Timestamp_Accel"]
+        
+        # Update time to human-readable format
+        current_time = current_row["Timestamp_Accel"]
         
         # Update the table to show the x, y, z values
         values_table.table(pd.DataFrame({
@@ -53,13 +55,12 @@ if st.button("Start"):
         
         # Append data to the line chart
         chart.line_chart(data=pd.DataFrame({
-            "Timestamp_Accel": [timestamp],
+            "Timestamp_Accel": [current_time],
             "X-axis (g)": [x_value],
             "Y-axis (g)": [y_value],
             "Z-axis (g)": [z_value]
-        }), use_container_width=True)
+        }))
         
         # Update index and wait for 1 second before the next row
         data_index += 1
         time.sleep(1)
-
