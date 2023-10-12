@@ -64,8 +64,8 @@ if st.button("Start"):
         })], ignore_index=True)
 
         if data_index >= 5:
-            chart.line_chart(data_to_plot, use_container_width=True, x="Timestamp_Accel")
-
+            chart.line_chart(data_to_plot, use_container_width=True, x="Timestamp_Accel", y=["X-axis (g)", "Y-axis (g)", "Z-axis (g)"])
+        
         # Update index and wait for 1 second before the next row
         data_index += 1
         time.sleep(1)
