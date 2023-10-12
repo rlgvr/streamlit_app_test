@@ -32,7 +32,7 @@ if st.button("Start"):
         y_value = current_row["y-axis (g)"]
         z_value = current_row["z-axis (g)"]
         description = current_row["Restlessness_Description"]
-        score = current_row["score"]
+        score = current_row["score_accelerometer"]
         
         # Update time to human-readable format
         current_time = convert_timestamp_to_datetime(current_row["epoch (ms)"])
