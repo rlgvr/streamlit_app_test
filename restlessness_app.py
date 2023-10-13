@@ -70,12 +70,12 @@ if st.button("Start"):
             st.line_chart(pd.DataFrame({
                 "Timestamp_Accel": [data_to_plot["Timestamp_Accel"].min(), data_to_plot["Timestamp_Accel"].max()],
                 "Threshold": [-1.8, -1.8]
-            }), use_container_width=True, key="threshold1", use_container_width=True)
+            }, key="threshold1", use_container_width=True)
 
             st.line_chart(pd.DataFrame({
                 "Timestamp_Accel": [data_to_plot["Timestamp_Accel"].min(), data_to_plot["Timestamp_Accel"].max()],
                 "Threshold": [1.8, 1.8]
-            }, key="threshold2", use_container_width=True))
+            }, key="threshold2", use_container_width=True)
 
         # Update index and wait for 1 second before the next row
         data_index += 1
