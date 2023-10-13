@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import time
 from datetime import datetime
+import plotly.express as px
 
 # Load your dataframe
 data = pd.read_csv("updated_night_4.csv")
@@ -26,8 +27,8 @@ description_and_score = st.empty()
 # Create a button to start processing
 if st.button("Start"):
     # Create an empty line chart for visualization
-    chart = st.line_chart(data=None, use_container_width=True)
-
+    chart = st.empty()
+    
     data_to_plot = pd.DataFrame(columns=["Timestamp_Accel", "X-axis (g)", "Y-axis (g)", "Z-axis (g)"])
     while data_index < len(data):
         # Get current row data
@@ -64,8 +65,20 @@ if st.button("Start"):
         })], ignore_index=True)
 
         if data_index >= 5:
-            chart.line_chart(data_to_plot, use_container_width=True, x="Timestamp_Accel", y=["X-axis (g)", "Y-axis (g)", "Z-axis (g)"])
-        
+            # Create a threshold line DataFrame with -1.8 and 1.8 values
+            threshold_df = pd.DataFrame({
+                "Timestamp_Accel": [data_to_plot["Timestamp_Accel"].min(), data_to_plot["Timestamp_Accel"].max()],
+                "Threshold": [-1.8, -1.8]
+            })
+
+            # Add threshold lines to the line chart
+            fig = px.line(data_to_plot, x="Timestamp_Accel", y=["X-axis (g)", "Y-axis (g)", "Z-axis (g)"])
+            fig.add_trace(px.line(threshold_df, x="Timestamp_Accel", y="Threshold").data[0])
+            fig.add_trace(px.line(threshold_df, x="Timestamp_Accel", y="-Threshold").data[0])
+
+            # Update the chart with the new data including threshold lines
+            chart.plotly_chart(fig, use_container_width=True)
+
         # Update index and wait for 1 second before the next row
         data_index += 1
         time.sleep(1)
