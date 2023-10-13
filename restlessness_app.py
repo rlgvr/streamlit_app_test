@@ -65,18 +65,7 @@ if st.button("Start"):
 
         if data_index >= 5:
             chart.line_chart(data_to_plot, use_container_width=True, x="Timestamp_Accel", y=["X-axis (g)", "Y-axis (g)", "Z-axis (g)"])
-
-        # Add a threshold line at -1.8 and 1.8
-        st.line_chart(pd.DataFrame({
-            "Timestamp_Accel": [data_to_plot["Timestamp_Accel"].min(), data_to_plot["Timestamp_Accel"].max()],
-            "Threshold": [-1.8, -1.8]
-        }, key="threshold1", use_container_width=True))
-
-        st.line_chart(pd.DataFrame({
-            "Timestamp_Accel": [data_to_plot["Timestamp_Accel"].min(), data_to_plot["Timestamp_Accel"].max()],
-            "Threshold": [1.8, 1.8]
-        }, key="threshold2", use_container_width=True)
-
+        
         # Update index and wait for 1 second before the next row
         data_index += 1
         time.sleep(1)
