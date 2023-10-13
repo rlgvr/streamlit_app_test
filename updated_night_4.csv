@@ -1,4 +1,4 @@
-,epoch (ms),time (-00:00),elapsed (s),x-axis (g),y-axis (g),z-axis (g),score,Restlessness_Description,score_accelerometer
+,epoch (ms),Timestamp_Accel,elapsed (s),x-axis (g),y-axis (g),z-axis (g),score,Restlessness_Description,score_accelerometer
 0,1697074209026,2023-10-12T02:30:09.026,0.0,0.345,-0.213,0.917,5,Moderate to High Restlessness,5
 1,1697074209066,2023-10-12T02:30:09.066,0.04,0.345,-0.214,0.926,5,Moderate to High Restlessness,5
 2,1697074209106,2023-10-12T02:30:09.106,0.08,0.339,-0.214,0.924,5,Moderate to High Restlessness,5
