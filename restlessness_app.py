@@ -27,7 +27,7 @@ description_and_score = st.empty()
 if st.button("Start"):
     # Create an empty line chart for visualization
     chart = st.line_chart(data=None, use_container_width=True)
-    
+
     data_to_plot = pd.DataFrame(columns=["Timestamp_Accel", "X-axis (g)", "Y-axis (g)", "Z-axis (g)"])
     while data_index < len(data):
         # Get current row data
@@ -64,19 +64,18 @@ if st.button("Start"):
         })], ignore_index=True)
 
         if data_index >= 5:
-            # Add threshold lines to the line chart
-            st.line_chart(data_to_plot, use_container_width=True)
+            chart.line_chart(data_to_plot, use_container_width=True, x="Timestamp_Accel", y=["X-axis (g)", "Y-axis (g)", "Z-axis (g)"])
 
-            # Add threshold lines as separate traces
+            # Add a threshold line at -1.8 and 1.8
             st.line_chart(pd.DataFrame({
                 "Timestamp_Accel": [data_to_plot["Timestamp_Accel"].min(), data_to_plot["Timestamp_Accel"].max()],
                 "Threshold": [-1.8, -1.8]
-            }), key="threshold", use_container_width=True)
+            }), use_container_width=True, key="threshold1", use_container_width=True)
 
             st.line_chart(pd.DataFrame({
                 "Timestamp_Accel": [data_to_plot["Timestamp_Accel"].min(), data_to_plot["Timestamp_Accel"].max()],
                 "Threshold": [1.8, 1.8]
-            }), key="threshold2", use_container_width=True)
+            }, key="threshold2", use_container_width=True))
 
         # Update index and wait for 1 second before the next row
         data_index += 1
