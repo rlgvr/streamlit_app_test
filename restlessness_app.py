@@ -66,8 +66,8 @@ if start_button:
             "Z-axis (g)": [z_value]
         })], ignore_index=True)
 
-        # Update the line chart with the new data
-        chart_placeholder.line_chart(data_to_plot.set_index("Timestamp_Accel"), use_container_width=True)
+        # Update the line chart with the new data and limit x-axis ticks to 20
+        chart_placeholder.line_chart(data_to_plot.set_index("Timestamp_Accel"), use_container_width=True, key="line_chart", x_ticks=20)
 
         # Update index and wait for 1 second before the next row
         data_index += 1
