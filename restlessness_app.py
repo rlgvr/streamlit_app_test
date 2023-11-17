@@ -17,9 +17,6 @@ def convert_timestamp_to_datetime(timestamp):
 st.title("Restlessness Evaluation")
 st.write("Start Live Evaluation")
 
-# Create a button to start processing
-start_button = st.button("Start")
-
 # Create an empty line chart for visualization
 chart_placeholder = st.empty()
 
@@ -28,6 +25,9 @@ values_table = st.empty()
 
 # Create a text element for the description and score (initially empty)
 description_and_score = st.empty()
+
+# Create a button to start processing
+start_button = st.button("Start", key="start_button")
 
 # Check if the button is pressed
 if start_button:
