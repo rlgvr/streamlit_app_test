@@ -17,13 +17,13 @@ def convert_timestamp_to_datetime(timestamp):
 st.title("Restlessness Evaluation")
 st.write("Start Live Evaluation")
 
-# Create an empty line chart for visualization
-chart = st.line_chart(data=None, use_container_width=True)
-
-# Create a button to start processing
-start_button = st.button("Start")
+# Create a button to start processing with a unique key
+start_button = st.button("Start", key="start_button")
 
 while start_button:
+    # Create an empty line chart for visualization
+    chart = st.line_chart(data=None, use_container_width=True)
+
     # Get current row data
     current_row = data.iloc[data_index]
     x_value = current_row["x-axis (g)"]
@@ -66,4 +66,4 @@ while start_button:
     time.sleep(1)
 
     # Check if the button is still pressed
-    start_button = st.button("Start")
+    start_button = st.button("Start", key="start_button")
