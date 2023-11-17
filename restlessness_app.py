@@ -18,7 +18,8 @@ st.title("Restlessness Evaluation")
 st.write("Start Live Evaluation")
 
 # Create a button to start processing with a unique key
-start_button = st.button("Start", key="start_button")
+start_button_key = "start_button"
+start_button = st.button("Start", key=start_button_key)
 
 while start_button:
     # Create an empty line chart for visualization
@@ -66,4 +67,4 @@ while start_button:
     time.sleep(1)
 
     # Check if the button is still pressed
-    start_button = st.button("Start", key="start_button")
+    start_button = st.button("Start", key=start_button_key)
