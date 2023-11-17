@@ -20,7 +20,10 @@ st.write("Start Live Evaluation")
 # Create an empty line chart for visualization
 chart = st.line_chart(data=None, use_container_width=True)
 
-while st.button("Start"):
+# Create a button to start processing
+start_button = st.button("Start")
+
+while start_button:
     # Get current row data
     current_row = data.iloc[data_index]
     x_value = current_row["x-axis (g)"]
@@ -61,3 +64,6 @@ while st.button("Start"):
     # Update index and wait for 1 second before the next row
     data_index += 1
     time.sleep(1)
+
+    # Check if the button is still pressed
+    start_button = st.button("Start")
