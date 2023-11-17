@@ -31,6 +31,7 @@ start_button = st.button("Start", key="start_button")
 
 # Check if the button is pressed
 if start_button:
+    data_to_plot = pd.DataFrame(columns=["Timestamp_Accel", "X-axis (g)", "Y-axis (g)", "Z-axis (g)"])
     while data_index < len(data):
         # Get current row data
         current_row = data.iloc[data_index]
@@ -58,12 +59,12 @@ if start_button:
         description_and_score.text(description_text)
 
         # Append data to the DataFrame to plot
-        data_to_plot = pd.DataFrame({
+        data_to_plot = pd.concat([data_to_plot, pd.DataFrame({
             "Timestamp_Accel": [timestamp],
             "X-axis (g)": [x_value],
             "Y-axis (g)": [y_value],
             "Z-axis (g)": [z_value]
-        })
+        })], ignore_index=True)
 
         # Update the line chart with the new data
         chart_placeholder.line_chart(data_to_plot.set_index("Timestamp_Accel"), use_container_width=True)
